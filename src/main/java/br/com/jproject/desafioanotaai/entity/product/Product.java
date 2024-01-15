@@ -19,5 +19,5 @@ public class Product {
     private String description;
     private Integer price;
     private Category category;
-    private String ownerID;
+    private String ownerId;
 }

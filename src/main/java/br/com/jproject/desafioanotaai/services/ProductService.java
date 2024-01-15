@@ -30,7 +30,7 @@ public class ProductService {
         product.setTitle(productData.getTitle());
         product.setDescription(productData.getDescription());
         product.setPrice(productData.getPrice());
-        product.setOwnerID(productData.getOwnerID());
+        product.setOwnerId(productData.getOwnerId());
         product.setCategory(category);
         productRepository.save(product);
         return productMapperDTO.productToProductDTO(product);
@@ -43,11 +43,13 @@ public class ProductService {
 
     public ProductDTO updateProduct(String id, ProductDTO productData) {
         Product product = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
-        categoryService.findCategory(productData.getCategory().getId()).ifPresent(product::setCategory);
+        if(productData.getCategory() != null){
+            categoryService.findCategory(productData.getCategory().getId()).ifPresent(product::setCategory);
+        }
         if(!productData.getTitle().isEmpty()) product.setTitle(productData.getTitle());
         if(!productData.getDescription().isEmpty()) product.setDescription(productData.getDescription());
         if(!(productData.getPrice() == null)) product.setPrice(productData.getPrice());
-        if(!productData.getOwnerID().isEmpty()) product.setOwnerID(productData.getOwnerID());
+        if(!productData.getOwnerId().isEmpty()) product.setOwnerId(productData.getOwnerId());
         productRepository.save(product);
         return productMapperDTO.productToProductDTO(product);
     }
